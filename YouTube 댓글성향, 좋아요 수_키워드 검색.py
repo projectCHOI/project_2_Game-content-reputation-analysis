@@ -3,7 +3,7 @@
 #Youtube API Key : ##Key##
 
 #pip 유튜브 키를 사용해 크롤링 모듈을 가져온다.
-pip install google-api-python-client google-auth-httplib2
+#pip install google-api-python-client google-auth-httplib2
 
 import os #운영 체제 관련 작업을 시작한다.
 
@@ -52,56 +52,56 @@ search_response = search_request.execute()
 
     #여기서 부터는 for문 사용
     # 검색 결과를 데이터프레임으로 변환합니다
-    video_data = []
-        for item in search_response["items"]:
-            video_id = item["id"]["videoId"]
+video_data = []
+for item in search_response["items"]:
+    video_id = item["id"]["videoId"]
 
-            #동영상 정보 요청
-            #https://www.youtube.com/watch?v=9zc57ArYET4
-            #https://www.youtube.com/watch?v=는 비디오 [뒤에 코드] 비디오 아이디
-            video_request = youtube.videos().list(
-                part="snippet,statistics",
-                id=video_id
-            )
+    #동영상 정보 요청
+    #https://www.youtube.com/watch?v=9zc57ArYET4
+    #https://www.youtube.com/watch?v=는 비디오 [뒤에 코드] 비디오 아이디
+    video_request = youtube.videos().list(
+        part="snippet,statistics",
+        id=video_id
+    )
 
-            # API 요청을 실행하고 응답을 받습니다
-            try:
-                comments_response = comments_request.execute()
-            except googleapiclient.errors.HttpError as e:
-                error_content = e.content.decode("utf-8")
-                if e.resp.status == 403 and 'commentsDisabled' in error_content:
-                    # 해당 동영상은 댓글이 비활성화되어 있음
-                    print(f"댓글이 비활성화된 동영상: {video_id}")
-                    continue  # 다음 동영상 처리로 넘어갑니다
-                else:
-                    # 다른 오류 처리
-                    raise e
+    # API 요청을 실행하고 응답을 받습니다
+    try:
+        comments_response = comments_request.execute()
+    except googleapiclient.errors.HttpError as e:
+        error_content = e.content.decode("utf-8")
+        if e.resp.status == 403 and 'commentsDisabled' in error_content:
+            # 해당 동영상은 댓글이 비활성화되어 있음
+            print(f"댓글이 비활성화된 동영상: {video_id}")
+            continue  # 다음 동영상 처리로 넘어갑니다
+        else:
+            # 다른 오류 처리
+            raise e
 
 
-            # 가져온 댓글 정보를 리스트에 저장합니다
-            for comment_item in comments_response["items"]:
-                comment_text = comment_item["snippet"]["topLevelComment"]["snippet"]["textDisplay"]
-                comment_author = comment_item["snippet"]["topLevelComment"]["snippet"]["authorDisplayName"]
-                comment_publish_date = comment_item["snippet"]["topLevelComment"]["snippet"]["publishedAt"]
-                comment_likes = comment_item["snippet"]["topLevelComment"]["snippet"]["likeCount"]
+    # 가져온 댓글 정보를 리스트에 저장합니다
+    for comment_item in comments_response["items"]:
+        comment_text = comment_item["snippet"]["topLevelComment"]["snippet"]["textDisplay"]
+        comment_author = comment_item["snippet"]["topLevelComment"]["snippet"]["authorDisplayName"]
+        comment_publish_date = comment_item["snippet"]["topLevelComment"]["snippet"]["publishedAt"]
+        comment_likes = comment_item["snippet"]["topLevelComment"]["snippet"]["likeCount"]
 
-                video_data.append([video_title, video_publish_date, video_likes, comment_text, comment_author, comment_publish_date, comment_likes])
+        video_data.append([video_title, video_publish_date, video_likes, comment_text, comment_author, comment_publish_date, comment_likes])
 
-            # 데이터프레임을 생성합니다
-            columns = ["동영상 제목", "게시일", "영상 좋아요 수", "댓글", "작성자", "댓글 작성일", "댓글 좋아요 수"]
-            merged_df = pd.DataFrame(video_data, columns=columns)
-        
-            # 데이터프레임을 CSV 파일로 저장합니다
-            merged_df.to_csv(f"동작구_{candi}.csv", index=False, encoding="utf-8-sig")
-        
-            print("검색 결과를 CSV 파일로 저장했습니다.")
-            
-            #time.sleep 하나의 작업이 끝나면 10초의 딜레이를 건다. 위에 time 인포트 해야함
-            time.sleep(10)
+    # 데이터프레임을 생성합니다
+    columns = ["동영상 제목", "게시일", "영상 좋아요 수", "댓글", "작성자", "댓글 작성일", "댓글 좋아요 수"]
+    merged_df = pd.DataFrame(video_data, columns=columns)
+
+    # 데이터프레임을 CSV 파일로 저장합니다
+    merged_df.to_csv(f"동작구_{candi}.csv", index=False, encoding="utf-8-sig")
+
+    print("검색 결과를 CSV 파일로 저장했습니다.")
+    
+    #time.sleep 하나의 작업이 끝나면 10초의 딜레이를 건다. 위에 time 인포트 해야함
+    time.sleep(10)
 
 # 데이터프레임 출력
-    df
+df
 
 for candi in candis:
-    # Excel 파일을 판다스 데이터프레임으로 읽어오기 ('utf-8' 인코딩을 사용한 경우)
-    df = pd.read_csv(f"동작구_{candi}.csv")
+# Excel 파일을 판다스 데이터프레임으로 읽어오기 ('utf-8' 인코딩을 사용한 경우)
+ df = pd.read_csv(f"동작구_{candi}.csv")
