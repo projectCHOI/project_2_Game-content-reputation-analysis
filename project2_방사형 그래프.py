@@ -38,7 +38,9 @@ advantages += [advantages[0]]
 disadvantages += [disadvantages[0]]
 neutral += [neutral[0]]
 
-# 그래프 초기화
+# 그래프 가져오기 
+# 크기 figsize=(6, 6) 가로6 세로6 
+# 방사형에 그래프 subplot_kw=dict(polar=True))
 fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
 
 # 축의 최대값을 20으로 설정 및 5단위로 설정
