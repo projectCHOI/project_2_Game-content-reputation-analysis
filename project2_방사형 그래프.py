@@ -1,7 +1,11 @@
+# Jupyter환경에서 진행 해야한다.
+# 폰트도 Jupyter에 있음
+
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.font_manager as font_manager
 
+# 사용자 입력을 받는 함수
 def get_scores(category_name):
     while True:
         try:
@@ -15,8 +19,9 @@ def get_scores(category_name):
         except ValueError as e:
             print("잘못된 입력입니다. 다시 시도해주세요. 오류:", e)
 
-#폰트 설정
-font_path = '####'  # 경로확인해서 복사.
+# 경로는 실제 폰트 파일 위치에 따라.
+# NanumGothic 폰트 설정
+font_path = 'NanumGothic.ttf'
 font_manager.fontManager.addfont(font_path)
 plt.rcParams['font.family'] = 'NanumGothic'
 
@@ -28,7 +33,7 @@ neutral = get_scores('중립')
 angles = np.linspace(0, 2 * np.pi, len(categories), endpoint=False).tolist()
 angles += angles[:1]
 
-# 배열 길이 점수 배열의 마지막 요소를 다시 추가하여 배열의 길이를 angles 배열과 일치.
+# 점수 배열의 마지막 요소를 다시 추가하여 배열의 길이를 angles 배열과 일치시킵니다.
 advantages += [advantages[0]]
 disadvantages += [disadvantages[0]]
 neutral += [neutral[0]]
@@ -56,7 +61,7 @@ ax.set_xticks(angles[:-1])
 ax.set_xticklabels(categories, fontdict={'fontsize': 12, 'fontfamily': 'NanumGothic'})
 
 # 제목과 범례
-ax.set_title("전문가용 모델링", size=20, fontfamily='NanumGothic')
+ax.set_title("GPT-4 학습", size=20, fontfamily='NanumGothic')
 ax.legend(['긍정', '부정', '중립'], loc='upper right', bbox_to_anchor=(1.1, 1.1))
 
 plt.show()
