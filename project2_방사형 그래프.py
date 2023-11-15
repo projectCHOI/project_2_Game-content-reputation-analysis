@@ -64,6 +64,7 @@ ax.set_xticklabels(categories, fontdict={'fontsize': 12, 'fontfamily': 'NanumGot
 
 # 제목과 범례
 ax.set_title("GPT-4 학습", size=20, fontfamily='NanumGothic')
+# bbox_to_anchor 범례 위치, (숫자가 높을수록 그래프의 중심에서 멀어짐)
 ax.legend(['긍정', '부정', '중립'], loc='upper right', bbox_to_anchor=(1.1, 1.1))
 
 plt.show()
