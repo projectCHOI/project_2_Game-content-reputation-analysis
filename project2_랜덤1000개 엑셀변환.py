@@ -7,6 +7,7 @@ file_path = "/content/drive/MyDrive/2.project_2_YouTube 크롤링
 data = pd.read_csv(file_path)
 
 # 겹치지 않는 1000개의 행을 랜덤하게 5번 선택하고 CSV 파일로 저장.
+# range(#) 변경 가능.
 # exclude_indices = 제외할_인덱스
 # sampled_indices = 선택한_인덱스
 
@@ -17,7 +18,7 @@ for i in range(5):
         data = data.drop(exclude_indices)
 
     # 1000개의 행을 랜덤하게 선택
-    random_sample = data.sample(n=1000, random_state=i)
+    random_sample = data.sample(n=5010, random_state=i)
 
     # 선택한 인덱스 추적
     sampled_indices = random_sample.index.values.reshape(-1, 1)
