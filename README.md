@@ -1,3 +1,4 @@
+# project_2_Game-content-reputation-analysis
 ## project2 주제
 - 콘텐츠의 반응을 즉각적이게 알 수 있는 댓글을 수집
 - 유튜브의 댓글을 크롤링 하여 분류, 게임 콘텐즈의 평판을 분석한다.
